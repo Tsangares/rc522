@@ -1,9 +1,8 @@
 from pirc522 import RFID
 import RPi.GPIO as GPIO
-#rdr = RFID(pin_rst=31,pin_irq=29)
-rdr = RFID()
 
-def loopDetect():
+def detect(rst=31,irq=29):
+  rdr = RFID(pin_rst=rst,pin_irq=irq)
   while True:
     rdr.wait_for_tag()
     (error, tag_type) = rdr.request()
@@ -11,22 +10,26 @@ def loopDetect():
       print("Tag detected")
       (error, uid) = rdr.anticoll()
       if not error:
-        print("UID: " + str(uid))
-        # Select Tag is required before Auth
+        uid = str(uid)
+        print(uid)
         if not rdr.select_tag(uid):
-          # Auth for block 10 (block 2 of sector 2) using default shipping key A
           if not rdr.card_auth(rdr.auth_a, 10, [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF], uid):
-            # This will print something like (False, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-            print("Reading block 10: " + str(rdr.read(10)))
-            # Always stop crypto1 when done working
+            block = str(rdr.read(10))
+            print(block)
             rdr.stop_crypto()
-    rdr.cleanup()
-  
-def detect():
-  pass
+            rdr.cleanup()
+            return uid,block
+          else:
+            print("Failed to get block")
+            continue
 
-def dectectKey():
-  pass
 
-if __name__=="__main__":
-  loopDetect()
+def dectectKey(uid,block,rst=31,irq=29):
+  _uid,_block = dectect(rst,irq)
+  return _uid == uid and _block == block
+
+def tempGet(rst=None,irq=None):
+  return 1, 1
+
+def tempDetect(uid,block):
+  return True
