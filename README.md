@@ -1,3 +1,7 @@
+## Context
+
+This tool is showcased in the project [IotaWorkshop](https://github.com/Tsangares/iotaworkshop)
+
 # Summary
 
 This is a basic RFID libarary for the rc522. This simply lets you pull a single tag data and later lets you confirm it using the function `detectKey(uid,block)`
