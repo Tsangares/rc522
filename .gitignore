@@ -1,3 +1,5 @@
 *~
 __pycache__/
 env/
+rc522.egg-info/
+dist/
