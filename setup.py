@@ -4,7 +4,7 @@ long_description = open("README.md").read()
 
 setup(
         name='rc522',
-        version='0.0.1.4',
+        version='0.0.1.5',
         description='RFID Utility',
         long_description=long_description,
         long_description_content_type="text/markdown",
